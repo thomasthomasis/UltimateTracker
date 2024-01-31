@@ -29,8 +29,12 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
       if(dataType == "Cardio")
       {
-        console.log("yes")
         setCardioData(data)
+      }
+
+      else if(dataType == "Resistance")
+      {
+        setResistanceData(data)
       }
 
     }
