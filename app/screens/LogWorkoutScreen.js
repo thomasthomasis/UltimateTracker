@@ -17,13 +17,144 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
   const isFocused = useIsFocused();
 
+  const muslces = [
+    {
+        id: '0',
+        name: 'Neck'
+    },
+    {
+        id: '1',
+        name: 'Traps'
+    },
+    {
+        id: '2',
+        name: 'Rhomboids'
+    },
+    {
+        id: '3',
+        name: 'Lats'
+    },
+    {
+        id: '4',
+        name: 'Rear Delts'
+    },
+    {
+        id: '5',
+        name: 'Side Delts'
+    },
+    {
+        id: '6',
+        name: 'Front Delts'
+    },
+    {
+        id: '7',
+        name: 'Lats'
+    },
+    {
+        id: '8',
+        name: 'Biceps'
+    },
+    {
+        id: '9',
+        name: 'Triceps'
+    },
+    {
+        id: '10',
+        name: 'Forearms'
+    },
+    {
+        id: '11',
+        name: 'Lower Back'
+    },
+    {
+        id: '12',
+        name: 'Abs'
+    },
+    {
+        id: '13',
+        name: 'Obliques'
+    },
+    {
+        id: '14',
+        name: 'Pecs'
+    },
+    {
+        id: '15',
+        name: 'Hip Flexors'
+    },
+    {
+        id: '16',
+        name: 'Quads'
+    },
+    {
+        id: '17',
+        name: 'Gastrocnemius'
+    },
+    {
+        id: '18',
+        name: 'Soleus'
+    },
+    {
+        id: '19',
+        name: 'Tibialis'
+    },
+    {
+        id: '20',
+        name: 'Glutes'
+    },
+    {
+        id: '21',
+        name: 'Hamstrings'
+    },
+    {
+        id: '22',
+        name: 'Hip Adductors'
+    },
+    {
+        id: '23',
+        name: 'Hip Abductors'
+    },
+]
+
+const trainingTypes = [
+    {
+        id: '24',
+        name: 'Strength'
+    },
+    {
+        id: '25',
+        name: 'Hypertrophy'
+    },
+    {
+        id: '26',
+        name: 'Endurance'
+    },
+    {
+        id: '27',
+        name: 'Power'
+    },{
+        id: '28',
+        name: 'Injury Prevention'
+    },
+    {
+        id: '29',
+        name: 'Rehab'
+    },
+]
+
   const getData = async () => {
     try{
       console.log("run get data")
       let strData = await AsyncStorage.getItem("data")
+      console.log("data: " + strData)
       let data = JSON.parse(strData)
 
-      console.log(data)
+      console.log("Data received from previous page: " + data)
+
+      if(data == null)
+      {
+        return;
+      }
 
       let dataType = await AsyncStorage.getItem("dataType")
 
@@ -70,6 +201,26 @@ export default LogWorkout = ({ route, navigation, props }) => {
                   })
                 }
               </View>
+            }
+
+
+            { /*
+              resistanceData.length > 0 && 
+              
+              <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                <Text style={styles.title}>RESISTANCE</Text>
+                {
+                  resistanceData.map((item, i) => {
+                    return (
+                      <View key={i} style={styles.container}>
+                        <Text style={{fontSize: 20, marginRight: 10}}>{item.time} Minutes</Text>
+                        <Text style={{fontSize: 20}}>{item.distance} KM</Text>
+                      </View> 
+                    )
+                  })
+                }
+              </View>
+                */
             }
           
         </View>
@@ -124,6 +275,10 @@ export default LogWorkout = ({ route, navigation, props }) => {
       fontWeight: 'bold',
       textDecorationLine: 'underline',
       textAlign: 'center'
+    },
+
+    underline: {
+      textDecorationLine: 'underline',
     },
 
     containerSummary: {

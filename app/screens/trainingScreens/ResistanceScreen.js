@@ -114,26 +114,26 @@ export default CardioScreen = ({route}) => {
 
     const trainingTypes = [
         {
-            id: '0',
+            id: '24',
             name: 'Strength'
         },
         {
-            id: '1',
+            id: '25',
             name: 'Hypertrophy'
         },
         {
-            id: '2',
+            id: '26',
             name: 'Endurance'
         },
         {
-            id: '3',
+            id: '27',
             name: 'Power'
         },{
-            id: '4',
+            id: '28',
             name: 'Injury Prevention'
         },
         {
-            id: '5',
+            id: '29',
             name: 'Rehab'
         },
     ]
@@ -141,21 +141,23 @@ export default CardioScreen = ({route}) => {
     const [selectedMuscles, onChangeSelectedMuscles] = useState([]);
     const [selectedTrainingTypes, onChangeSelectedTrainingTypes] = useState([]);
 
+
     const submitWork = async (type) => {
+
+
+        
         try{
         await AsyncStorage.removeItem("data")
-        await AsyncStorage.setItem("data", JSON.stringify(dataEntries))
+        await AsyncStorage.setItem("data", JSON.stringify(selectedMuscles +  "," + selectedTrainingTypes))
 
         await AsyncStorage.setItem("dataType", type)
 
         } catch(err){
-        console.log(err)
+        console.log("Error: " + err)
         }
 
         navigation.navigate('LogWorkout')
     }
-
-    useEffect(() => console.log("selected muscles: " + selectedMuscles), [selectedMuscles]);
 
     return (
         <SafeAreaView>
