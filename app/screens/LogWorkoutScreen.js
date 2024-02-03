@@ -17,7 +17,7 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
   const isFocused = useIsFocused();
 
-  const muslces = [
+  const resistanceTrainingOptions = [
     {
         id: '0',
         name: 'Neck'
@@ -114,12 +114,9 @@ export default LogWorkout = ({ route, navigation, props }) => {
         id: '23',
         name: 'Hip Abductors'
     },
-]
-
-const trainingTypes = [
     {
-        id: '24',
-        name: 'Strength'
+      id: '24',
+      name: 'Strength'
     },
     {
         id: '25',
@@ -146,7 +143,6 @@ const trainingTypes = [
     try{
       console.log("run get data")
       let strData = await AsyncStorage.getItem("data")
-      console.log("data: " + strData)
       let data = JSON.parse(strData)
 
       console.log("Data received from previous page: " + data)
@@ -165,7 +161,16 @@ const trainingTypes = [
 
       else if(dataType == "Resistance")
       {
-        setResistanceData(data)
+        let dataString = data.split(",")
+        let dataArray = []
+        for(var i = 0; i < dataString.length; i++)
+        {
+          let json = resistanceTrainingOptions[dataString[i]]
+          dataArray.push(json)
+        }
+        
+        console.log(dataArray)
+        setResistanceData(dataArray)
       }
 
     }
@@ -204,23 +209,40 @@ const trainingTypes = [
             }
 
 
-            { /*
-              resistanceData.length > 0 && 
+            { resistanceData.length > 0 && 
               
-              <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
+              <View >
                 <Text style={styles.title}>RESISTANCE</Text>
+                <Text style={styles.underline}>Muscles Worked</Text>
                 {
                   resistanceData.map((item, i) => {
                     return (
                       <View key={i} style={styles.container}>
-                        <Text style={{fontSize: 20, marginRight: 10}}>{item.time} Minutes</Text>
-                        <Text style={{fontSize: 20}}>{item.distance} KM</Text>
+                      { item.id < 24 &&
+                        <Text style={{fontSize: 20, marginRight: 10, textAlign: 'center'}}>{item.name}</Text>
+                      } 
+                      </View> 
+                    )
+                  })
+                }
+
+                <Text></Text>
+                <Text style={styles.underline}>Training Type</Text>
+                {
+                  resistanceData.map((item, i) => {
+                    return (
+                      <View key={i} style={styles.container}>
+                      { item.id >= 24 &&
+                        <Text style={{fontSize: 20, marginRight: 10, textAlign: 'center'}}>{item.name}</Text>
+                      }
+                      
+                        
                       </View> 
                     )
                   })
                 }
               </View>
-                */
+                
             }
           
         </View>
@@ -279,6 +301,8 @@ const trainingTypes = [
 
     underline: {
       textDecorationLine: 'underline',
+      fontSize: 20,
+      textAlign: 'center'
     },
 
     containerSummary: {
@@ -294,7 +318,7 @@ const trainingTypes = [
 
     container: {
       display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'row',
+      flexDirection: 'column',
+      justifyContent: 'center'
     }
   });
