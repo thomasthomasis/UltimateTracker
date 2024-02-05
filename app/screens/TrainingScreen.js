@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CardioScreen from './trainingScreens/CardioScreen';
 import ResistanceScreen from './trainingScreens/ResistanceScreen';
+import PlyometricScreen from './trainingScreens/PlyometricScreen';
 
 
 export default Training = ({route, navigation}) => {
@@ -23,6 +24,13 @@ export default Training = ({route, navigation}) => {
     {
       return (
         <ResistanceScreen></ResistanceScreen>
+      )
+    }
+
+    else if(route.params.title == "Plyometrics")
+    {
+      return (
+        <PlyometricScreen></PlyometricScreen>
       )
     }
   }

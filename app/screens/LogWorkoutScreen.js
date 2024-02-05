@@ -15,6 +15,8 @@ export default LogWorkout = ({ route, navigation, props }) => {
   const [trainingData, setTrainingData] = useState([])
   const [fieldData, setFieldData] = useState([])
 
+  const [showOptions, setShowOptions] = useState(false)
+
   const isFocused = useIsFocused();
 
   const resistanceTrainingOptions = [
@@ -143,6 +145,8 @@ export default LogWorkout = ({ route, navigation, props }) => {
     try{
       console.log("run get data")
       let strData = await AsyncStorage.getItem("data")
+
+      console.log(strData)
       let data = JSON.parse(strData)
 
       console.log("Data received from previous page: " + data)
@@ -173,6 +177,11 @@ export default LogWorkout = ({ route, navigation, props }) => {
         setResistanceData(dataArray)
       }
 
+      else if(dataType == "Plyometrics")
+      {
+        setPlyometricsData(data)
+      }
+
     }
     catch(err){
       console.log("Error: " + err)
@@ -186,10 +195,17 @@ export default LogWorkout = ({ route, navigation, props }) => {
     }
   }, [isFocused]);
 
+  const openTrainingOptions = () => {
+    if(showOptions) setShowOptions(false)
+    else if (!showOptions) setShowOptions(true)
+
+    console.log("hello")
+  }
+
     return (
       <View>
       
-        <View style={styles.containerSummary}>
+        <ScrollView style={styles.containerSummary}>
           
             { cardioData.length > 0 &&
 
@@ -244,29 +260,61 @@ export default LogWorkout = ({ route, navigation, props }) => {
               </View>
                 
             }
+
+            { plyometricsData.length > 0 &&
+
+              <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                <Text style={styles.title}>PLYOMETRICS</Text>
+                {
+                  cardioData.map((item, i) => {
+                    return (
+                      <View key={i} style={styles.container}>
+                        <Text style={{fontSize: 20, marginRight: 10}}>{item.name}</Text>
+                        <Text style={{fontSize: 20}}>{item.sets}</Text>
+                        <Text style={{fontSize: 20}}>X</Text>
+                        <Text style={{fontSize: 20}}>{item.reps}</Text>
+                      </View> 
+                    )
+                  })
+                }
+              </View>
+
+            }
           
+        </ScrollView>
+        
+        { showOptions && 
+          <View style={styles.containerButton}>
+          <Pressable style={styles.circleButton} onPress={() => navigation.navigate('Training', {title: "Cardio"})}>
+            <Text style={styles.text}>c</Text>
+          </Pressable>
+          <Pressable style={styles.circleButton} onPress={() => navigation.navigate('Training', {title: "Resistance"})}>
+            <Text style={styles.text}>r</Text>
+          </Pressable>
+          <Pressable style={styles.circleButton} onPress={() => navigation.navigate('Training', {title: "Plyometrics"})}>
+            <Text style={styles.text}>p</Text>
+          </Pressable>
+          <Pressable style={styles.circleButton} onPress={() => navigation.navigate('Training', {title: "Throwing"})}>
+            <Text style={styles.text}>t</Text>
+          </Pressable>
+          <Pressable style={styles.circleButton} onPress={() => navigation.navigate('Training', {title: "Field"})}>
+            <Text style={styles.text}>f</Text>
+          </Pressable>
+          <Pressable style={styles.circleButton} onPress={() => navigation.navigate('Training', {title: "Training"})}>
+            <Text style={styles.text}>tr</Text>
+          </Pressable>
+
+        </View>
+        }
+        
+
+        <View style={styles.containerOptionSelect}>
+          <Pressable style={styles.circleButton} onPress={() => openTrainingOptions()}>
+              <Text style={styles.text}></Text>
+            </Pressable>
         </View>
 
-        <View style={styles.containerButton}>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Training', {title: "Cardio"})}>
-            <Text style={styles.text}>Cardio</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Training', {title: "Resistance"})}>
-            <Text style={styles.text}>Resistance</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Training', {title: "Plyometrics"})}>
-            <Text style={styles.text}>Plyometrics</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Training', {title: "Throwing"})}>
-            <Text style={styles.text}>Throwing</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Training', {title: "Field"})}>
-            <Text style={styles.text}>Field</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Training', {title: "Training"})}>
-            <Text style={styles.text}>Training</Text>
-          </Pressable>
-        </View>
+        
        
       </View>
       
@@ -276,8 +324,8 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
   const styles = StyleSheet.create({
     button: {
-      width: 100,
-      height: 50,
+      width: 40,
+      height: 40,
       backgroundColor: '#622fd0',
       margin: 3,
       borderRadius: 5,
@@ -285,6 +333,17 @@ export default LogWorkout = ({ route, navigation, props }) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+
+    circleButton: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      width: 50,
+      height: 50,
+      backgroundColor: '#622fd0',
+      borderRadius: 50,
     },
 
     text: {
@@ -307,18 +366,36 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
     containerSummary: {
       width: '100%',
-      height: '50%',
-      
+      height: '90%'
     },
 
     containerButton: {
+      position: 'absolute',
+      bottom: 55,
+
       display: 'flex',
-      alignItems: 'center',
+      flexDirection: 'row',
+
+      margin: 'auto'
     },
 
     container: {
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center'
+      justifyContent: 'center',
+
+      backgroundColor: 'red'
+    },
+
+    containerOptionSelect: {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      position: 'fixed',
+      bottom: 0
+
+      
     }
   });
