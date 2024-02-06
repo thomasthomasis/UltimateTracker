@@ -51,6 +51,11 @@ export default LogWorkout = ({ route, navigation, props }) => {
         setPlyometricsData(data)
       }
 
+      else if(dataType == "Throwing")
+      {
+        setThrowingData(data)
+      }
+
     }
     catch(err){
       console.log("Error: " + err)
@@ -74,6 +79,7 @@ export default LogWorkout = ({ route, navigation, props }) => {
   useEffect(() => console.log("Plyometric Data", [plyometricsData]));
   useEffect(() => console.log("Cardio Data", [cardioData]));
   useEffect(() => console.log("Resistance Data", [resistanceData]));
+  useEffect(() => console.log("Throwing Data", [throwingData] ))
 
 
     return (
@@ -152,6 +158,24 @@ export default LogWorkout = ({ route, navigation, props }) => {
                 }
               </View>
 
+            }
+
+            { throwingData.length > 0 &&
+
+            <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                <Text style={styles.title}>THROWING</Text>
+                {
+                  throwingData.map((item, i) => {
+                    return (
+                      <View key={i} style={styles.container}>
+                        <Text style={{fontSize: 20, marginRight: 10}}>{item.reps}</Text>
+                        <Text style={{fontSize: 20}}>{item.angle} </Text>
+                        <Text style={{fontSize: 20}}>{item.throw}s</Text>
+                      </View> 
+                    )
+                  })
+                }
+              </View>
             }
           
         </ScrollView>
