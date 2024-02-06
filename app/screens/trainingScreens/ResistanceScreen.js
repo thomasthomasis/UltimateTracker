@@ -114,26 +114,26 @@ export default CardioScreen = ({route}) => {
 
     const trainingTypes = [
         {
-            id: '24',
+            id: '0',
             name: 'Strength'
         },
         {
-            id: '25',
+            id: '1',
             name: 'Hypertrophy'
         },
         {
-            id: '26',
+            id: '2',
             name: 'Endurance'
         },
         {
-            id: '27',
+            id: '3',
             name: 'Power'
         },{
-            id: '28',
+            id: '4',
             name: 'Injury Prevention'
         },
         {
-            id: '29',
+            id: '5',
             name: 'Rehab'
         },
     ]
@@ -144,11 +144,23 @@ export default CardioScreen = ({route}) => {
 
     const submitWork = async (type) => {
 
+        let data = []
 
-        
+        selectedMuscles.forEach(element => {
+            let json = {name: muslces[element].name, muscle: true}
+
+            data.push(json)
+        });
+
+        selectedTrainingTypes.forEach(element => {
+            let json = {name: trainingTypes[element].name, muscle: false}
+
+            data.push(json)
+        })
+
         try{
         await AsyncStorage.removeItem("data")
-        await AsyncStorage.setItem("data", JSON.stringify(selectedMuscles +  "," + selectedTrainingTypes))
+        await AsyncStorage.setItem("data", JSON.stringify(data))
 
         await AsyncStorage.setItem("dataType", type)
 

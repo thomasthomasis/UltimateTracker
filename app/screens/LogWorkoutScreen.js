@@ -19,128 +19,6 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
   const isFocused = useIsFocused();
 
-  const resistanceTrainingOptions = [
-    {
-        id: '0',
-        name: 'Neck'
-    },
-    {
-        id: '1',
-        name: 'Traps'
-    },
-    {
-        id: '2',
-        name: 'Rhomboids'
-    },
-    {
-        id: '3',
-        name: 'Lats'
-    },
-    {
-        id: '4',
-        name: 'Rear Delts'
-    },
-    {
-        id: '5',
-        name: 'Side Delts'
-    },
-    {
-        id: '6',
-        name: 'Front Delts'
-    },
-    {
-        id: '7',
-        name: 'Lats'
-    },
-    {
-        id: '8',
-        name: 'Biceps'
-    },
-    {
-        id: '9',
-        name: 'Triceps'
-    },
-    {
-        id: '10',
-        name: 'Forearms'
-    },
-    {
-        id: '11',
-        name: 'Lower Back'
-    },
-    {
-        id: '12',
-        name: 'Abs'
-    },
-    {
-        id: '13',
-        name: 'Obliques'
-    },
-    {
-        id: '14',
-        name: 'Pecs'
-    },
-    {
-        id: '15',
-        name: 'Hip Flexors'
-    },
-    {
-        id: '16',
-        name: 'Quads'
-    },
-    {
-        id: '17',
-        name: 'Gastrocnemius'
-    },
-    {
-        id: '18',
-        name: 'Soleus'
-    },
-    {
-        id: '19',
-        name: 'Tibialis'
-    },
-    {
-        id: '20',
-        name: 'Glutes'
-    },
-    {
-        id: '21',
-        name: 'Hamstrings'
-    },
-    {
-        id: '22',
-        name: 'Hip Adductors'
-    },
-    {
-        id: '23',
-        name: 'Hip Abductors'
-    },
-    {
-      id: '24',
-      name: 'Strength'
-    },
-    {
-        id: '25',
-        name: 'Hypertrophy'
-    },
-    {
-        id: '26',
-        name: 'Endurance'
-    },
-    {
-        id: '27',
-        name: 'Power'
-    },{
-        id: '28',
-        name: 'Injury Prevention'
-    },
-    {
-        id: '29',
-        name: 'Rehab'
-    },
-]
-
   const getData = async () => {
     try{
       console.log("run get data")
@@ -165,16 +43,7 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
       else if(dataType == "Resistance")
       {
-        let dataString = data.split(",")
-        let dataArray = []
-        for(var i = 0; i < dataString.length; i++)
-        {
-          let json = resistanceTrainingOptions[dataString[i]]
-          dataArray.push(json)
-        }
-        
-        console.log(dataArray)
-        setResistanceData(dataArray)
+        setResistanceData(data)
       }
 
       else if(dataType == "Plyometrics")
@@ -201,6 +70,11 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
     console.log("hello")
   }
+
+  useEffect(() => console.log("Plyometric Data", [plyometricsData]));
+  useEffect(() => console.log("Cardio Data", [cardioData]));
+  useEffect(() => console.log("Resistance Data", [resistanceData]));
+
 
     return (
       <View>
@@ -234,7 +108,7 @@ export default LogWorkout = ({ route, navigation, props }) => {
                   resistanceData.map((item, i) => {
                     return (
                       <View key={i} style={styles.container}>
-                      { item.id < 24 &&
+                      { item.muscle == true &&
                         <Text style={{fontSize: 20, marginRight: 10, textAlign: 'center'}}>{item.name}</Text>
                       } 
                       </View> 
@@ -248,10 +122,9 @@ export default LogWorkout = ({ route, navigation, props }) => {
                   resistanceData.map((item, i) => {
                     return (
                       <View key={i} style={styles.container}>
-                      { item.id >= 24 &&
-                        <Text style={{fontSize: 20, marginRight: 10, textAlign: 'center'}}>{item.name}</Text>
+                      { item.muscle == false &&
+                        <Text key={i} style={{fontSize: 20, marginRight: 10, textAlign: 'center'}}>{item.name}</Text>
                       }
-                      
                         
                       </View> 
                     )
@@ -266,12 +139,12 @@ export default LogWorkout = ({ route, navigation, props }) => {
               <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
                 <Text style={styles.title}>PLYOMETRICS</Text>
                 {
-                  cardioData.map((item, i) => {
+                  plyometricsData.map((item, i) => {
                     return (
                       <View key={i} style={styles.container}>
                         <Text style={{fontSize: 20, marginRight: 10}}>{item.name}</Text>
                         <Text style={{fontSize: 20}}>{item.sets}</Text>
-                        <Text style={{fontSize: 20}}>X</Text>
+                        <Text style={{fontSize: 20}}> X </Text>
                         <Text style={{fontSize: 20}}>{item.reps}</Text>
                       </View> 
                     )
@@ -381,10 +254,8 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
     container: {
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'row',
       justifyContent: 'center',
-
-      backgroundColor: 'red'
     },
 
     containerOptionSelect: {
