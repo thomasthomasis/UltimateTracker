@@ -18,11 +18,7 @@ export default FieldScreen = ({route}) => {
         let json = {summary: summary}
 
         try{
-          await AsyncStorage.removeItem("data")
-          await AsyncStorage.setItem("data", JSON.stringify(json))
-  
-          await AsyncStorage.setItem("dataType", type)
-  
+          await AsyncStorage.setItem("fieldData", JSON.stringify(json))
         } catch(err){
           console.log(err)
         }

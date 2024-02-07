@@ -159,10 +159,7 @@ export default CardioScreen = ({route}) => {
         })
 
         try{
-        await AsyncStorage.removeItem("data")
-        await AsyncStorage.setItem("data", JSON.stringify(data))
-
-        await AsyncStorage.setItem("dataType", type)
+        await AsyncStorage.setItem("resistanceData", JSON.stringify(data))
 
         } catch(err){
         console.log("Error: " + err)

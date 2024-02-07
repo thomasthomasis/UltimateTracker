@@ -31,11 +31,7 @@ export default PlyometricScreen = ({route}) => {
 
     const submitWork = async (type) => {
         try{
-          await AsyncStorage.removeItem("data")
-          await AsyncStorage.setItem("data", JSON.stringify(dataEntries))
-  
-          await AsyncStorage.setItem("dataType", type)
-  
+          await AsyncStorage.setItem("plyometricData", JSON.stringify(dataEntries))
         } catch(err){
           console.log(err)
         }

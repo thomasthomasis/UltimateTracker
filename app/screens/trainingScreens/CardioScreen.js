@@ -30,10 +30,7 @@ export default CardioScreen = ({route}) => {
 
     const submitWork = async (type) => {
         try{
-          await AsyncStorage.removeItem("data")
-          await AsyncStorage.setItem("data", JSON.stringify(dataEntries))
-  
-          await AsyncStorage.setItem("dataType", type)
+          await AsyncStorage.setItem("cardioData", JSON.stringify(dataEntries))
   
         } catch(err){
           console.log(err)

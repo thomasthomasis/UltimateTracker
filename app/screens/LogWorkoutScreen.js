@@ -11,7 +11,7 @@ export default LogWorkout = ({ route, navigation, props }) => {
   const [cardioData, setCardioData] = useState([])
   const [resistanceData, setResistanceData] = useState([])
   const [throwingData, setThrowingData] = useState([])
-  const [plyometricsData, setPlyometricsData] = useState([])
+  const [plyometricData, setPlyometricData] = useState([])
   const [trainingData, setTrainingData] = useState([])
   const [fieldData, setFieldData] = useState([])
 
@@ -21,49 +21,49 @@ export default LogWorkout = ({ route, navigation, props }) => {
 
   const getData = async () => {
     try{
-      console.log("run get data")
-      let strData = await AsyncStorage.getItem("data")
-
-      console.log(strData)
-      let data = JSON.parse(strData)
-
-      if(data == null)
+      let strCardioData = await AsyncStorage.getItem("cardioData")
+      let cardioData = JSON.parse(strCardioData)
+      if(cardioData != null)
       {
-        return;
+        setCardioData(cardioData)
+      }
+      
+      
+      let strResistanceData = await AsyncStorage.getItem("resistanceData")
+      let resistanceData = JSON.parse(strResistanceData)
+      if(resistanceData != null)
+      {
+        setResistanceData(resistanceData)
       }
 
-      let dataType = await AsyncStorage.getItem("dataType")
-
-      if(dataType == "Cardio")
+      let strPlyometricData = await AsyncStorage.getItem("plyometricData")
+      let plyometricData = JSON.parse(strPlyometricData)
+      if(plyometricData != null)
       {
-        setCardioData(data)
+        setPlyometricData(plyometricData)
+      }
+      
+      let strThrowingData = await AsyncStorage.getItem("throwingData")
+      let throwingData = JSON.parse(strThrowingData)
+      if(throwingData != null)
+      {
+        setThrowingData(throwingData)
       }
 
-      else if(dataType == "Resistance")
+      let strFieldData = await AsyncStorage.getItem("fieldData")
+      let fieldData = JSON.parse(strFieldData)
+      if(fieldData != null)
       {
-        setResistanceData(data)
+        setFieldData(fieldData)
       }
-
-      else if(dataType == "Plyometrics")
+      
+      let strTrainingData = await AsyncStorage.getItem("trainingData")
+      let trainingData = JSON.parse(strTrainingData)
+      if(trainingData != null)
       {
-        setPlyometricsData(data)
+        setTrainingData(trainingData)
       }
-
-      else if(dataType == "Throwing")
-      {
-        setThrowingData(data)
-      }
-
-      else if(dataType == "Field")
-      {
-        setFieldData(data)
-      }
-
-      else if(dataType == "Training")
-      {
-        setTrainingData(data)
-      }
-
+      
     }
     catch(err){
       console.log("Error: " + err)
@@ -84,7 +84,7 @@ export default LogWorkout = ({ route, navigation, props }) => {
     console.log("hello")
   }
 
-  useEffect(() => console.log("Plyometric Data", [plyometricsData]));
+  useEffect(() => console.log("Plyometric Data", [plyometricData]));
   useEffect(() => console.log("Cardio Data", [cardioData]));
   useEffect(() => console.log("Resistance Data", [resistanceData]));
   useEffect(() => console.log("Throwing Data", [throwingData] ))
@@ -133,7 +133,8 @@ export default LogWorkout = ({ route, navigation, props }) => {
       
         <ScrollView style={styles.containerSummary}>
           
-            { cardioData.length > 0 &&
+            { 
+              cardioData.length > 0 &&
 
               <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
                 <Text style={styles.title}>CARDIO</Text>
@@ -186,12 +187,12 @@ export default LogWorkout = ({ route, navigation, props }) => {
                 
             }
 
-            { plyometricsData.length > 0 &&
+            { plyometricData.length > 0 &&
 
               <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
                 <Text style={styles.title}>PLYOMETRICS</Text>
                 {
-                  plyometricsData.map((item, i) => {
+                  plyometricData.map((item, i) => {
                     return (
                       <View key={i} style={styles.container}>
                         <Text style={{fontSize: 20, marginRight: 10}}>{item.name}</Text>
