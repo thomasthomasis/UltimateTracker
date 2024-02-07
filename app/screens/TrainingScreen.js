@@ -10,6 +10,8 @@ import CardioScreen from './trainingScreens/CardioScreen';
 import ResistanceScreen from './trainingScreens/ResistanceScreen';
 import PlyometricScreen from './trainingScreens/PlyometricScreen';
 import ThrowingScreen from './trainingScreens/ThrowingScreen';
+import FieldScreen from './trainingScreens/FieldScreen';
+import TrainingWorkScreen from './trainingScreens/TrainingWorkScreen';
 
 
 export default Training = ({route, navigation}) => {
@@ -39,6 +41,20 @@ export default Training = ({route, navigation}) => {
     {
       return (
         <ThrowingScreen></ThrowingScreen>
+      )
+    }
+
+    else if(route.params.title == "Field")
+    {
+      return (
+        <FieldScreen></FieldScreen>
+      )
+    }
+
+    else if(route.params.title == "Training")
+    {
+      return (
+        <TrainingWorkScreen></TrainingWorkScreen>
       )
     }
   }

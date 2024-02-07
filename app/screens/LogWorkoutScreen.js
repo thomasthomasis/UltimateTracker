@@ -27,8 +27,6 @@ export default LogWorkout = ({ route, navigation, props }) => {
       console.log(strData)
       let data = JSON.parse(strData)
 
-      console.log("Data received from previous page: " + data)
-
       if(data == null)
       {
         return;
@@ -56,6 +54,16 @@ export default LogWorkout = ({ route, navigation, props }) => {
         setThrowingData(data)
       }
 
+      else if(dataType == "Field")
+      {
+        setFieldData(data)
+      }
+
+      else if(dataType == "Training")
+      {
+        setTrainingData(data)
+      }
+
     }
     catch(err){
       console.log("Error: " + err)
@@ -80,6 +88,44 @@ export default LogWorkout = ({ route, navigation, props }) => {
   useEffect(() => console.log("Cardio Data", [cardioData]));
   useEffect(() => console.log("Resistance Data", [resistanceData]));
   useEffect(() => console.log("Throwing Data", [throwingData] ))
+  useEffect(() => console.log("Field Data", [fieldData]));
+  useEffect(() => console.log("Training Data", [trainingData]));
+
+  const checkIfDataIsNull = (data, type) => {
+    let conditionalContent;
+
+    if(data.length != 0)
+    {
+      if(data.summary.length > 0)
+      {
+        conditionalContent = 
+        
+        <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
+          <Text style={styles.title}>{type.toUpperCase()}</Text>
+            <View style={styles.container}>
+              <Text style={{fontSize: 20}}>{data.summary}</Text>
+            </View>
+        </View>
+      }
+      else if(data.summary.length == 0)
+      {
+        conditionalContent = 
+
+        <View style={{marginLeft: 'auto', marginRight: 'auto'}}>
+          <Text style={styles.title}>{type.toUpperCase()}</Text>
+            <View style={styles.container}>
+              <Text style={{fontSize: 20}}>One {type} Session</Text>
+            </View>
+        </View>
+      }
+
+      return conditionalContent;
+    }
+    else
+    {
+      return null;
+    }
+  }
 
 
     return (
@@ -177,6 +223,9 @@ export default LogWorkout = ({ route, navigation, props }) => {
                 }
               </View>
             }
+
+            { checkIfDataIsNull(fieldData, "Field") }
+            { checkIfDataIsNull(trainingData, "Training")}
           
         </ScrollView>
         
