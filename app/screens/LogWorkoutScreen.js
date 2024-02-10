@@ -5,8 +5,11 @@ import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
 
+import Realm from "realm";
+import {RealmProvider} from '@realm/react'
 
-export default LogWorkout = ({ route, navigation, props }) => {
+
+export default LogWorkout = async ({ route, navigation, props }) => {
 
   const [cardioData, setCardioData] = useState([])
   const [resistanceData, setResistanceData] = useState([])
@@ -84,6 +87,10 @@ export default LogWorkout = ({ route, navigation, props }) => {
     console.log("hello")
   }
 
+  const submitWorkout = () => {
+
+  }
+
   useEffect(() => console.log("Plyometric Data", [plyometricData]));
   useEffect(() => console.log("Cardio Data", [cardioData]));
   useEffect(() => console.log("Resistance Data", [resistanceData]));
@@ -126,6 +133,33 @@ export default LogWorkout = ({ route, navigation, props }) => {
       return null;
     }
   }
+
+  const TaskSchema = {
+    name: "Task",
+    properties: {
+      _id: "int",
+      name: "string",
+      status: "string?"
+    },
+    primaryKey: "_id",
+  }
+  
+  (async () => {
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [TaskSchema]
+    })
+
+    realm.write(() => {
+      task1 = realm.create("Task", {
+        _id: 1,
+        name: "go grocery shopping",
+        status: "Open",
+      });
+      console.log("created a task")
+    })
+  })
+
 
 
     return (
